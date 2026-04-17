@@ -4,91 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Road of Vietnam</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery for easier DOM manipulations -->
-    <script src="https://leafletjs.com/examples/quick-start/leaflet.js"></script> <!-- Leaflet for the interactive map -->
-    <link rel="stylesheet" href="https://leafletjs.com/examples/quick-start/leaflet.css"> <!-- Leaflet CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #ce1126; /* Red from Vietnamese Flag */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .flag {
+            width: 50px;
+            height: auto;
+            margin: 0 auto;
+        }
+        .content {
+            padding: 20px;
+        }
+        .button {
+            background-color: #ffde00; /* Yellow from Vietnamese Flag */
+            border: none;
+            padding: 10px 20px;
+            color: #333;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ce1126;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Road of Vietnam</h1>
+        <h1>Road Status Monitoring System</h1>
+        <img src="vietnam-flag.png" alt="Vietnam Flag" class="flag">
     </header>
-
-    <main>
-        <section id="map" style="height: 500px;"></section> <!-- Interactive Map Section -->
-
-        <section id="road-status">
-            <h2>Road Status</h2>
-            <ul id="status-list"></ul> <!-- List to display road statuses -->
-        </section>
-
-        <section id="report-incident">
-            <h2>Report an Incident</h2>
-            <form id="incident-form">
-                <label for="incident-description">Description:</label>
-                <input type="text" id="incident-description" required>
-                <button type="submit">Submit</button>
-            </form>
-        </section>
-
-        <section id="statistics">
-            <h2>Statistics</h2>
-            <div id="stats-panel"></div> <!-- Statistics Panel -->
-        </section>
-
-        <section id="search">
-            <h2>Search</h2>
-            <input type="text" id="search-input" placeholder="Search roads...">
-            <button id="search-button">Search</button>
-        </section>
-    </main>
-
+    <div class="content">
+        <h2>Monitor Road Status</h2>
+        <button class="button">Report Incident</button>
+        <button class="button">View Statistics</button>
+        <button class="button">Search Road Conditions</button>
+        <p>Stay updated with the latest road conditions in Vietnam!</p>
+    </div>
     <footer>
-        <p>&copy; 2026 Road of Vietnam Project</p>
+        <p>&copy; 2026 Road of Vietnam</p>
     </footer>
-
-    <script>
-        // Map Initialization
-        var map = L.map('map').setView([14.0583, 108.2772], 6); // Centered on Vietnam
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
-
-        // Function to fetch road statuses
-        function fetchRoadStatuses() {
-            $.get('/api/road-status', function(data) {
-                data.forEach(function(status) {
-                    $('#status-list').append('<li>' + status + '</li>');
-                });
-            });
-        }
-
-        // Incident Reporting
-        $('#incident-form').submit(function(e) {
-            e.preventDefault();
-            var description = $('#incident-description').val();
-            $.post('/api/report-incident', { description: description }, function(response) {
-                alert('Incident reported!');
-            });
-        });
-
-        // Statistics Update Logic
-        function fetchStatistics() {
-            $.get('/api/statistics', function(data) {
-                $('#stats-panel').html('<p>Total Roads: ' + data.totalRoads + '</p>');
-            });
-        }
-
-        // Search Functionality
-        $('#search-button').click(function() {
-            var query = $('#search-input').val();
-            // Implement search API call logic here
-        });
-
-        // Fetch initial data
-        fetchRoadStatuses();
-        fetchStatistics();
-    </script>
 </body>
 </html>
